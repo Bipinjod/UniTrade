@@ -1,0 +1,32 @@
+# Uploads Directory
+
+This directory is reserved for user-uploaded files. Do not commit actual uploads to version control.
+
+## Subdirectories
+
+- **items/** - Product/item images uploaded by users
+- **profiles/** - User profile pictures
+
+## Important Notes
+
+- This directory structure is tracked by Git, but actual uploaded files are ignored
+- Ensure proper file permissions for web server write access
+- Implement file size limits and validation on upload
+- Use unique filenames to prevent conflicts (e.g., UUID + timestamp)
+
+## Recommended File Naming Convention
+
+```
+{userId}_{timestamp}_{uuid}.{extension}
+Example: 1234_20260409123045_a8f3c2e1.jpg
+```
+
+## Security Considerations
+
+1. Validate file types (whitelist: jpg, jpeg, png, gif only)
+2. Check file size limits (recommended: max 5MB per file)
+3. Sanitize filenames to prevent directory traversal attacks
+4. Store files outside document root if possible
+5. Never execute uploaded files
+6. Scan for malware in production environments
+

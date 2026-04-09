@@ -1,0 +1,490 @@
+/**
+ * CampusHub - User Dashboard Stylesheet
+ * Styles for user dashboard, item listings, and user-specific pages
+ */
+
+/* ========================================
+   User Dashboard Layout
+   ======================================== */
+.user-dashboard {
+    min-height: 100vh;
+    background-color: var(--light);
+}
+
+/* ========================================
+   User Navigation Bar
+   ======================================== */
+.user-navbar {
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.user-navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.user-navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+    list-style: none;
+}
+
+.user-navbar-menu a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-fast);
+}
+
+.user-navbar-menu a:hover {
+    color: var(--primary);
+}
+
+.user-navbar-profile {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+/* ========================================
+   User Sidebar
+   ======================================== */
+.user-layout {
+    display: flex;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+}
+
+.user-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.user-sidebar-card {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-xl);
+}
+
+.user-sidebar-menu {
+    list-style: none;
+}
+
+.user-sidebar-menu li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.user-sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: 0.75rem 1rem;
+    color: var(--dark);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: var(--transition-fast);
+    font-weight: 500;
+}
+
+.user-sidebar-menu a:hover {
+    background-color: var(--primary-light);
+    color: var(--primary);
+}
+
+.user-sidebar-menu a.active {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/* ========================================
+   User Main Content
+   ======================================== */
+.user-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-header {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.user-header-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: var(--spacing-sm);
+}
+
+.user-header-subtitle {
+    font-size: 1rem;
+    color: var(--gray);
+    margin-bottom: 0;
+}
+
+/* ========================================
+   Stats Cards
+   ======================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.stat-card {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-xl);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+.stat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.stat-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--white);
+}
+
+.stat-card-icon.primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+.stat-card-icon.success {
+    background: linear-gradient(135deg, var(--success), #0d6832);
+}
+
+.stat-card-icon.warning {
+    background: linear-gradient(135deg, var(--warning), #c77700);
+}
+
+.stat-card-icon.accent {
+    background: linear-gradient(135deg, var(--accent), #5b21b6);
+}
+
+.stat-card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-card-label {
+    font-size: 0.875rem;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+/* ========================================
+   Item Grid
+   ======================================== */
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.item-card {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.item-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+.item-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: var(--light);
+}
+
+.item-card-body {
+    padding: var(--spacing-lg);
+}
+
+.item-card-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.item-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: var(--spacing-sm);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.item-card-description {
+    font-size: 0.875rem;
+    color: var(--gray);
+    margin-bottom: var(--spacing-md);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.item-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border);
+}
+
+.item-card-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.item-card-condition {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.item-card-condition.new {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.item-card-condition.like-new {
+    background-color: #cfe2ff;
+    color: #052c65;
+}
+
+.item-card-condition.good {
+    background-color: #e7f1ff;
+    color: #003d82;
+}
+
+.item-card-condition.used {
+    background-color: #fff3cd;
+    color: #664d03;
+}
+
+/* ========================================
+   Filters & Search
+   ======================================== */
+.filters-bar {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.filters-bar .container {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray);
+}
+
+.filter-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* ========================================
+   Wishlist Button
+   ======================================== */
+.wishlist-btn {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--gray);
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.wishlist-btn:hover {
+    color: var(--danger);
+    transform: scale(1.1);
+}
+
+.wishlist-btn.active {
+    color: var(--danger);
+}
+
+/* ========================================
+   Empty State
+   ======================================== */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl);
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    color: var(--gray-light);
+    margin-bottom: var(--spacing-lg);
+}
+
+.empty-state-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: var(--spacing-md);
+}
+
+.empty-state-text {
+    font-size: 1rem;
+    color: var(--gray);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+@media (max-width: 1024px) {
+    .user-layout {
+        flex-direction: column;
+    }
+
+    .user-sidebar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-navbar-menu {
+        gap: var(--spacing-md);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .items-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: var(--spacing-md);
+    }
+
+    .search-box {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-navbar .container {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .items-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .item-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+}
+
