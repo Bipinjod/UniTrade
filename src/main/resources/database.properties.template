@@ -1,5 +1,5 @@
 # ==============================================
-# CampusHub Database Configuration Template
+# UniTrade Database Configuration Template
 # ==============================================
 #
 # IMPORTANT:
@@ -12,7 +12,7 @@
 
 # Database Connection URL
 # Format: jdbc:mysql://hostname:port/database_name?parameters
-db.url=jdbc:mysql://localhost:3306/campushub?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+db.url=jdbc:mysql://localhost:3306/unitrade_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
 
 # Database Credentials
 db.username=root
@@ -21,32 +21,10 @@ db.password=your_mysql_password_here
 # JDBC Driver Class (MySQL 8+)
 db.driver=com.mysql.cj.jdbc.Driver
 
-# Connection Pool Settings
-db.pool.initialSize=5
-db.pool.maxActive=10
-db.pool.maxIdle=5
-db.pool.minIdle=2
-db.pool.maxWait=10000
-
-# Connection Validation
-db.testOnBorrow=true
-db.validationQuery=SELECT 1
-
 # ==============================================
-# Development vs Production
+# Notes
 # ==============================================
-#
-# Development:
-# - Use localhost
-# - Disable SSL (useSSL=false)
-# - Enable verbose logging
-#
-# Production:
-# - Use proper hostname/IP
-# - Enable SSL (useSSL=true)
-# - Use strong passwords
-# - Restrict database user permissions
-# - Enable connection pooling
-#
+# - Run database/unitrade_final_schema.sql first to create the database
+# - Default admin login: admin@unitrade.com / admin123
 # ==============================================
 

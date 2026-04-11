@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${not empty item ? 'Edit Item' : 'Post Item'} - CampusHub</title>
+    <title>${not empty item ? 'Edit Item' : 'Post Item'} - UniTrade</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -18,8 +18,8 @@
     <nav class="user-nav">
         <div class="nav-container">
             <a href="${pageContext.request.contextPath}/user/dashboard" class="nav-logo">
-                <div class="logo-icon">🎯</div>
-                <span>CampusHub</span>
+                <div class="logo-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+                <span>UniTrade</span>
             </a>
             <div class="nav-links">
                 <a href="${pageContext.request.contextPath}/user/items" class="nav-link">Browse</a>
@@ -48,20 +48,21 @@
                 </p>
             </div>
             <a href="${pageContext.request.contextPath}/user/items?action=my-listings" class="btn btn-ghost">
-                ← Back to Listings
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                Back to Listings
             </a>
         </div>
 
         <!-- Alert Messages -->
         <c:if test="${not empty sessionScope.success}">
             <div class="alert alert-success">
-                <span>✓</span> ${sessionScope.success}
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> ${sessionScope.success}
             </div>
             <c:remove var="success" scope="session"/>
         </c:if>
         <c:if test="${not empty sessionScope.error}">
             <div class="alert alert-error">
-                <span>⚠️</span> ${sessionScope.error}
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> ${sessionScope.error}
             </div>
             <c:remove var="error" scope="session"/>
         </c:if>
@@ -186,7 +187,7 @@
 
                     <!-- Info Notice -->
                     <div class="form-notice">
-                        <span class="notice-icon">ℹ️</span>
+                        <span class="notice-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
                         <span>Your listing will be reviewed by an admin before it appears publicly. This usually takes a few hours.</span>
                     </div>
 
@@ -195,7 +196,7 @@
                         <button type="submit" class="btn btn-primary btn-lg">
                             <c:choose>
                                 <c:when test="${not empty item}">Update Listing</c:when>
-                                <c:otherwise>Submit Listing →</c:otherwise>
+                                <c:otherwise>Submit Listing</c:otherwise>
                             </c:choose>
                         </button>
                         <a href="${pageContext.request.contextPath}/user/items?action=my-listings" class="btn btn-ghost btn-lg">
@@ -209,17 +210,17 @@
             <!-- Sidebar Tips -->
             <div class="form-sidebar">
                 <div class="tips-card">
-                    <h3 class="tips-title">💡 Listing Tips</h3>
+                    <h3 class="tips-title">Listing Tips</h3>
                     <ul class="tips-list">
                         <li>Add a clear, specific title</li>
                         <li>Be honest about condition</li>
-                        <li>Price fairly — check similar listings</li>
+                        <li>Price fairly - check similar listings</li>
                         <li>Include key details in description</li>
                         <li>Mention any defects upfront</li>
                     </ul>
                 </div>
                 <div class="tips-card">
-                    <h3 class="tips-title">📋 Approval Process</h3>
+                    <h3 class="tips-title">Approval Process</h3>
                     <p class="tips-text">All new listings are reviewed within 24 hours. You'll see your item's status in <strong>My Listings</strong>.</p>
                 </div>
             </div>

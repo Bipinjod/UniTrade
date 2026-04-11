@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
@@ -6,11 +6,11 @@
          version="6.0">
 
     <!-- Application Display Name -->
-    <display-name>CampusHub - Student Marketplace Platform</display-name>
+    <display-name>UniTrade - Student Marketplace Platform</display-name>
 
     <!-- Application Description -->
     <description>
-        CampusHub is a student marketplace and peer service platform for college students in Nepal.
+        UniTrade is a student marketplace and peer service platform for college students in Nepal.
         Students can buy, sell, and trade items within their campus community.
     </description>
 
@@ -76,7 +76,6 @@
             <url-pattern>*.jsp</url-pattern>
             <page-encoding>UTF-8</page-encoding>
             <scripting-invalid>false</scripting-invalid>
-            <include-prelude>/WEB-INF/jspf/taglibs.jspf</include-prelude>
         </jsp-property-group>
     </jsp-config>
 
