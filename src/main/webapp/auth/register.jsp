@@ -96,10 +96,10 @@
             </div>
 
             <!-- Error alert -->
-            <c:if test="${not empty param.error}">
+            <c:if test="${not empty error}">
                 <div class="auth-msg auth-msg-error">
                     <strong>Registration failed</strong>
-                    <span>${param.error}</span>
+                    <span>${error}</span>
                 </div>
             </c:if>
 
@@ -109,13 +109,6 @@
                     <span>${sessionScope.error}</span>
                 </div>
                 <c:remove var="error" scope="session"/>
-            </c:if>
-
-            <c:if test="${not empty errorMessage}">
-                <div class="auth-msg auth-msg-error">
-                    <strong>Error</strong>
-                    <span>${errorMessage}</span>
-                </div>
             </c:if>
 
             <c:if test="${not empty successMessage}">
@@ -190,7 +183,7 @@
 
             <!-- Login link -->
             <div class="auth-alt">
-                Already have an account? <a href="${pageContext.request.contextPath}/auth/login.jsp">Sign in</a>
+                Already have an account? <a href="${pageContext.request.contextPath}/auth/login">Sign in</a>
             </div>
 
         </div>

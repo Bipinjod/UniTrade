@@ -113,12 +113,11 @@
         }
         .err-note a:hover { opacity: 0.8; }
 
-        @media (max-width: 576px) {
-            .error-card { padding: 2rem 1.5rem; max-width: 95vw; }
+        @media (max-width: 480px) {
+            .error-card { padding: 2rem 1.5rem; }
             .err-title { font-size: 1.15rem; }
             .err-actions { flex-direction: column; }
             .btn-dark, .btn-ghost { width: 100%; justify-content: center; }
-            .err-visual { width: 56px; height: 56px; }
         }
     </style>
 </head>

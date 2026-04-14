@@ -5,6 +5,11 @@
          https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
+    <!-- Application Lifecycle Listener — cleans up MySQL JDBC resources on shutdown -->
+    <listener>
+        <listener-class>com.unitrade.util.AppContextListener</listener-class>
+    </listener>
+
     <!-- Application Display Name -->
     <display-name>UniTrade - Student Marketplace Platform</display-name>
 

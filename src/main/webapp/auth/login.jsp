@@ -81,17 +81,17 @@
                 <p>Sign in to your UniTrade account</p>
             </div>
 
-            <c:if test="${not empty param.error}">
+            <c:if test="${not empty error}">
                 <div class="auth-msg auth-msg-error">
                     <strong>Sign in failed</strong>
-                    <span>${param.error}</span>
+                    <span>${error}</span>
                 </div>
             </c:if>
 
-            <c:if test="${not empty param.success}">
+            <c:if test="${not empty success}">
                 <div class="auth-msg auth-msg-success">
                     <strong>Success</strong>
-                    <span>${param.success}</span>
+                    <span>${success}</span>
                 </div>
             </c:if>
 
@@ -101,20 +101,6 @@
                     <span>${sessionScope.success}</span>
                 </div>
                 <c:remove var="success" scope="session"/>
-            </c:if>
-
-            <c:if test="${not empty errorMessage}">
-                <div class="auth-msg auth-msg-error">
-                    <strong>Error</strong>
-                    <span>${errorMessage}</span>
-                </div>
-            </c:if>
-
-            <c:if test="${not empty successMessage}">
-                <div class="auth-msg auth-msg-success">
-                    <strong>Success</strong>
-                    <span>${successMessage}</span>
-                </div>
             </c:if>
 
             <form method="post" action="${pageContext.request.contextPath}/auth/login" class="auth-form" autocomplete="on">
@@ -142,7 +128,7 @@
             </form>
 
             <div class="auth-alt">
-                Don't have an account? <a href="${pageContext.request.contextPath}/auth/register.jsp">Create account</a>
+                Don't have an account? <a href="${pageContext.request.contextPath}/auth/register">Create account</a>
             </div>
 
         </div>

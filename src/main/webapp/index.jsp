@@ -437,29 +437,7 @@
         }
 
         /* ─── RESPONSIVE ─── */
-        /* --- Mobile nav hamburger --- */
-        .mobile-nav-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-        }
-        .mobile-nav-toggle span {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background: var(--navy);
-            border-radius: 2px;
-            transition: transform 0.25s, opacity 0.25s;
-        }
-        .mobile-nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .mobile-nav-toggle.active span:nth-child(2) { opacity: 0; }
-        .mobile-nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-        @media (max-width: 992px) {
+        @media (max-width: 900px) {
             .hero {
                 grid-template-columns: 1fr; gap: 2.5rem;
                 padding-top: 112px; padding-bottom: 2.5rem;
@@ -470,59 +448,20 @@
             .feat-grid { grid-template-columns: repeat(2, 1fr); }
             .trust-grid { grid-template-columns: 1fr; gap: 1rem; }
             .nav-links { display: none; }
-            .nav-links.nav-open {
-                display: flex;
-                flex-direction: column;
-                position: absolute;
-                top: 56px;
-                left: 0;
-                right: 0;
-                background: rgba(255,255,255,0.98);
-                padding: 0.75rem 2rem 1rem;
-                border-bottom: 1px solid var(--border);
-                box-shadow: 0 4px 12px rgba(26,26,46,0.06);
-                gap: 0.5rem;
-                z-index: 99;
-            }
-            .mobile-nav-toggle { display: flex; }
             .bottom-cta {
                 flex-direction: column; text-align: center;
                 margin-left: 1rem; margin-right: 1rem;
             }
             .foot-top { grid-template-columns: 1fr 1fr; }
         }
-        @media (max-width: 768px) {
-            .nav-inner { padding: 0 1.25rem; }
-            .hero { padding: 96px 1.25rem 2rem; }
-            .hero-h1 { font-size: 2.125rem; letter-spacing: -1px; }
-            .hero-sub { font-size: 0.9375rem; }
-            .how, .features, .trust { padding-left: 1.25rem; padding-right: 1.25rem; }
-            .cats { padding-left: 1.25rem; padding-right: 1.25rem; }
-            .proof { padding-left: 1.25rem; padding-right: 1.25rem; }
-            .sec-h2 { font-size: 1.35rem; }
-            .bottom-cta { padding: 2rem 1.5rem; margin-left: 0.75rem; margin-right: 0.75rem; }
-            .bottom-cta h2 { font-size: 1.1rem; }
-            .foot { padding: 2rem 1.25rem 1.25rem; }
-        }
-        @media (max-width: 576px) {
-            .hero { padding-top: 88px; }
-            .hero-h1 { font-size: 1.75rem; letter-spacing: -0.8px; }
-            .hero-sub { font-size: 0.875rem; max-width: 320px; }
-            .hero-actions { flex-direction: column; align-items: flex-start; }
-            .mock-card { width: 240px; }
+        @media (max-width: 540px) {
+            .hero { padding-top: 96px; }
+            .hero-h1 { font-size: 2rem; letter-spacing: -1px; }
+            .mock-card { width: 250px; }
             .feat-grid { grid-template-columns: 1fr; }
             .cats-row { gap: 0.4rem; }
-            .cat-chip { font-size: 0.7rem; padding: 0.35rem 0.7rem; }
-            .foot-top { grid-template-columns: 1fr; gap: 1.5rem; }
-            .foot-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
-            .proof-text { font-size: 0.78rem; }
-            .sec-h2 { font-size: 1.2rem; }
-            .sec-sub { font-size: 0.84rem; }
-            .pill { font-size: 0.68rem; }
-            .nav-inner { height: 50px; }
-            .nav-brand { font-size: 0.95rem; }
-            .nav-cta { padding: 0.35rem 0.75rem; font-size: 0.72rem; }
-            .bottom-cta { padding: 1.75rem 1.25rem; }
+            .foot-top { grid-template-columns: 1fr; }
+            .foot-bottom { flex-direction: column; gap: 0.5rem; }
         }
     </style>
 </head>
@@ -535,9 +474,6 @@
                 <a href="${pageContext.request.contextPath}/" class="nav-brand">
                     <span class="dot"></span>UniTrade
                 </a>
-                <button class="mobile-nav-toggle" aria-label="Toggle navigation" onclick="this.classList.toggle('active');this.closest('.nav-inner').querySelector('.nav-links').classList.toggle('nav-open');">
-                    <span></span><span></span><span></span>
-                </button>
                 <div class="nav-links">
                     <a href="${pageContext.request.contextPath}/" class="active">Home</a>
                     <a href="${pageContext.request.contextPath}/user/browse">Browse</a>
