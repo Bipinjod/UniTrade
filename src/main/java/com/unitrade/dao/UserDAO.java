@@ -263,6 +263,28 @@ public class UserDAO {
     }
 
     /**
+     * Update only the password hash for a user.
+     *
+     * @param userId         the user whose password to update
+     * @param hashedPassword BCrypt-hashed new password
+     * @return true if the update succeeded
+     */
+    public boolean updatePassword(int userId, String hashedPassword) {
+        String sql = "UPDATE users SET password_hash = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, hashedPassword);
+            stmt.setInt(2, userId);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
      * Helper method to map ResultSet to User object
      *
      * @param rs ResultSet from database query

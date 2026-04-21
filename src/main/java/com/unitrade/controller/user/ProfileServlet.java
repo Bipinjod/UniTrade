@@ -105,13 +105,16 @@ public class ProfileServlet extends HttpServlet {
         }
 
         user.setPasswordHash(PasswordUtil.hashPassword(newPassword));
-        // Need a DAO method to update password – use updateUser for simplicity
-        User freshUser = userService.getUserById(user.getUserId());
-        freshUser.setPasswordHash(user.getPasswordHash());
-        // updateUser doesn't update password – we'll accept this limitation
-        // In production, add a dedicated updatePassword method
-        session.setAttribute("success", "Password changed successfully");
-        session.setAttribute("loggedInUser", freshUser);
+        boolean saved = userService.updatePassword(user.getUserId(), user.getPasswordHash());
+
+        if (saved) {
+            // Refresh session user so in-memory hash stays in sync
+            User refreshed = userService.getUserById(user.getUserId());
+            if (refreshed != null) session.setAttribute("loggedInUser", refreshed);
+            session.setAttribute("success", "Password changed successfully");
+        } else {
+            session.setAttribute("error", "Failed to update password. Please try again.");
+        }
         res.sendRedirect(req.getContextPath() + "/user/profile");
     }
 }

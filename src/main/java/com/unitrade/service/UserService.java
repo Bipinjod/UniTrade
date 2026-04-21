@@ -273,6 +273,17 @@ public class UserService {
     }
 
     /**
+     * Persist a new BCrypt-hashed password for the given user.
+     *
+     * @param userId         the user whose password to update
+     * @param hashedPassword BCrypt hash of the new password
+     * @return true if the DB row was updated
+     */
+    public boolean updatePassword(int userId, String hashedPassword) {
+        return userDAO.updatePassword(userId, hashedPassword);
+    }
+
+    /**
      * Get all users with pending approval status
      *
      * @return List of pending users

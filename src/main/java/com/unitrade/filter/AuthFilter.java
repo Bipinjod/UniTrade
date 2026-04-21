@@ -1,6 +1,12 @@
 package com.unitrade.filter;
 
+import com.unitrade.controller.auth.LoginServlet;
+import com.unitrade.dao.RememberTokenDAO;
+import com.unitrade.dao.UserDAO;
+import com.unitrade.model.RememberToken;
 import com.unitrade.model.User;
+import com.unitrade.util.CookieUtil;
+import com.unitrade.util.PasswordUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,81 +17,133 @@ import java.io.IOException;
 
 /**
  * AuthFilter - Authentication Filter
- * Protects routes that require user login
- * Applies to all /user/* routes and other protected endpoints
+ * Protects routes that require user login (/user/*).
+ *
+ * If no session exists, it checks for a valid Remember Me cookie and
+ * restores the session automatically (persistent login).
  */
 @WebFilter(urlPatterns = {"/user/*"})
 public class AuthFilter implements Filter {
 
+    private RememberTokenDAO tokenDAO;
+    private UserDAO userDAO;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // Filter initialization - can add logging here if needed
-        Filter.super.init(filterConfig);
+        tokenDAO = new RememberTokenDAO();
+        userDAO  = new UserDAO();
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        // Cast to HttpServletRequest and HttpServletResponse
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletRequest  httpRequest  = (HttpServletRequest)  request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        // Get the current session (do not create a new one)
-        HttpSession session = httpRequest.getSession(false);
+        // ── 1. Check active session ──────────────────────────────────────────
+        HttpSession session    = httpRequest.getSession(false);
+        User        loggedInUser = (session != null)
+                ? (User) session.getAttribute("loggedInUser")
+                : null;
 
-        // Get the logged-in user from session
-        User loggedInUser = null;
-        if (session != null) {
-            loggedInUser = (User) session.getAttribute("loggedInUser");
+        // ── 2. No session — try Remember Me cookie ───────────────────────────
+        if (loggedInUser == null) {
+            String cookieValue = CookieUtil.getCookieValue(httpRequest, LoginServlet.REMEMBER_COOKIE);
+
+            if (cookieValue != null) {
+                loggedInUser = resolveRememberCookie(cookieValue, httpRequest, httpResponse);
+
+                if (loggedInUser != null) {
+                    // Restore session from cookie
+                    HttpSession newSession = httpRequest.getSession(true);
+                    newSession.setAttribute("loggedInUser", loggedInUser);
+                    newSession.setMaxInactiveInterval(30 * 60);
+                }
+            }
         }
 
-        // Check if user is logged in
+        // ── 3. Still not authenticated → redirect to login ───────────────────
         if (loggedInUser == null) {
-            // User is not authenticated - redirect to login page
-
-            // Save the original requested URL to redirect back after login
+            // Save original URL so we can redirect back after login
             String requestedUrl = httpRequest.getRequestURI();
-            String queryString = httpRequest.getQueryString();
+            String queryString  = httpRequest.getQueryString();
+            if (queryString != null) requestedUrl += "?" + queryString;
 
-            if (queryString != null) {
-                requestedUrl += "?" + queryString;
-            }
-
-            // Store the URL in session to redirect back after login
             HttpSession newSession = httpRequest.getSession(true);
             newSession.setAttribute("redirectAfterLogin", requestedUrl);
 
-            // Redirect to login page with error message
-            String contextPath = httpRequest.getContextPath();
-            httpResponse.sendRedirect(contextPath + "/auth/login");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/auth/login");
             return;
         }
 
-        // Check if user account is active and approved
+        // ── 4. Check account state ────────────────────────────────────────────
         if (!"APPROVED".equals(loggedInUser.getApprovalStatus())) {
-            // User is not approved yet
-            String contextPath = httpRequest.getContextPath();
-            httpResponse.sendRedirect(contextPath + "/error.jsp?message=Your account is pending approval");
+            httpResponse.sendRedirect(httpRequest.getContextPath()
+                    + "/error.jsp?message=Your+account+is+pending+approval");
             return;
         }
-
         if (!"ACTIVE".equals(loggedInUser.getAccountStatus())) {
-            // User account is not active (might be blocked or inactive)
-            String contextPath = httpRequest.getContextPath();
-            httpResponse.sendRedirect(contextPath + "/error.jsp?message=Your account is not active");
+            httpResponse.sendRedirect(httpRequest.getContextPath()
+                    + "/error.jsp?message=Your+account+is+not+active");
             return;
         }
 
-        // User is authenticated and approved - allow the request to proceed
+        // ── 5. All checks passed ──────────────────────────────────────────────
         chain.doFilter(request, response);
     }
 
     @Override
-    public void destroy() {
-        // Cleanup code if needed
-        Filter.super.destroy();
+    public void destroy() { }
+
+    // ─── Private helper ──────────────────────────────────────────────────────
+
+    /**
+     * Validate the Remember Me cookie value and return the matching User, or null.
+     * Cookie format: "selector:validatorRaw"
+     */
+    @SuppressWarnings("unused")
+    private User resolveRememberCookie(String cookieValue,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response) {
+        try {
+            String[] parts = cookieValue.split(":", 2);
+            if (parts.length != 2) {
+                CookieUtil.deleteCookie(response, LoginServlet.REMEMBER_COOKIE);
+                return null;
+            }
+
+            String selector     = parts[0];
+            String validatorRaw = parts[1];
+
+            RememberToken token = tokenDAO.findBySelector(selector);
+
+            if (token == null || token.isExpired()) {
+                if (token != null) tokenDAO.deleteBySelector(selector);
+                CookieUtil.deleteCookie(response, LoginServlet.REMEMBER_COOKIE);
+                return null;
+            }
+
+            if (!PasswordUtil.verifyPassword(validatorRaw, token.getValidatorHash())) {
+                tokenDAO.deleteAllForUser(token.getUserId());
+                CookieUtil.deleteCookie(response, LoginServlet.REMEMBER_COOKIE);
+                return null;
+            }
+
+            User user = userDAO.getUserById(token.getUserId());
+            if (user == null
+                    || !"APPROVED".equals(user.getApprovalStatus())
+                    || !"ACTIVE".equals(user.getAccountStatus())) {
+                tokenDAO.deleteBySelector(selector);
+                CookieUtil.deleteCookie(response, LoginServlet.REMEMBER_COOKIE);
+                return null;
+            }
+
+            return user;
+
+        } catch (Exception e) {
+            System.err.println("[AuthFilter] resolveRememberCookie error: " + e.getMessage());
+            return null;
+        }
     }
 }
-
-
